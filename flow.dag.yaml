@@ -1,0 +1,270 @@
+id: template_standard_flow
+name: Template Standard Flow
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  storageAccountUri:
+    type: string
+    default: ""
+    is_chat_input: false
+  containerName:
+    type: string
+    default: ""
+    is_chat_input: false
+  WebPageName:
+    type: string
+    default: ""
+    is_chat_input: false
+  certificateOfAllMatters:
+    type: string
+    default: ""
+    is_chat_input: false
+  applicationForm:
+    type: string
+    default: ""
+    is_chat_input: false
+  config:
+    type: string
+    default: ""
+    is_chat_input: false
+outputs:
+  answer_Risk:
+    type: string
+    reference: ${aggregate_risk.output.Risk}
+  answer_reason:
+    type: string
+    reference: ${aggregate_risk.output.reason}
+nodes:
+- name: load_documents
+  type: python
+  source:
+    type: code
+    path: load_documents.py
+  inputs:
+    account_uri: ${inputs.storageAccountUri}
+    config: ${inputs.config}
+    container_name: ${inputs.containerName}
+  use_variants: false
+- name: abuseDetection01_sys_msg01
+  type: prompt
+  source:
+    type: code
+    path: abuseDetection01_sys_msg01.jinja2
+  inputs: {}
+  use_variants: false
+- name: checkApplicationForm
+  type: llm
+  source:
+    type: code
+    path: checkApplicationForm.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    temperature: 0
+    top_p: 1
+    response_format:
+      type: json_object
+    application_form: ${load_documents.output.application_form}
+    system_message: ${abuseDetection01_sys_msg01.output}
+  provider: AzureOpenAI
+  connection: demoopenai01
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: aggregate_risk
+  type: python
+  source:
+    type: code
+    path: aggregate_risk.py
+  inputs:
+    application_form_risk: ${checkApplicationForm.output}
+    certificate_of_all_matters_risk: ${checkCertificateForm.output}
+    distance_risk: ${checkDistanceOfficeAndOwner2.output}
+    web_page_risk: ${checkWebHomePage2.output}
+  use_variants: false
+- name: checkCertificateForm
+  type: llm
+  source:
+    type: code
+    path: checkCertificateForm.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    temperature: 0
+    top_p: 1
+    response_format:
+      type: json_object
+    certificate_of_all_matters: ${load_documents.output.certificate_of_all_matters}
+    system_message: ${abuseDetection01_sys_msg01.output}
+  provider: AzureOpenAI
+  connection: demoopenai01
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: abuseDetection01_sys_msg02
+  type: prompt
+  source:
+    type: code
+    path: abuseDetection01_sys_msg02.jinja2
+  inputs: {}
+  use_variants: false
+- name: checkWebHomePage
+  type: llm
+  source:
+    type: code
+    path: checkWebHomePage.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    temperature: 0
+    top_p: 1
+    response_format:
+      type: json_object
+    functions:
+    - name: browse_wesite
+      description: It is used to obtain information from the Internet. Please enter your questions in Japanese.
+      parameters:
+        type: object
+        properties:
+          url:
+            type: string
+            description: The url of the website
+        required:
+        - url
+    - name: check_distance
+      description: Calculate the distance from two zip codes.
+      parameters:
+        type: object
+        properties:
+          zip1:
+            type: string
+            description: a zip code of the first location
+          zip2:
+            type: string
+            description: a zip code of the second location
+        required:
+        - zip1
+        - zip2
+    function_call: auto
+    system_message: ${abuseDetection01_sys_msg03.output}
+    web_home_page: ${load_documents.output.web_page}
+  provider: AzureOpenAI
+  connection: demoopenai01
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: abuseDetection01_sys_msg03
+  use_variants: true
+- name: run_function
+  type: python
+  source:
+    type: code
+    path: run_function.py
+  inputs:
+    response_message: ${checkWebHomePage.output}
+  use_variants: false
+- name: checkWebHomePage2
+  type: llm
+  source:
+    type: code
+    path: checkWebHomePage2.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    temperature: 0
+    top_p: 1
+    response_format:
+      type: json_object
+    result_of_run_function: ${run_function.output}
+    system_message: ${abuseDetection01_sys_msg03.output}
+    web_home_page: ${load_documents.output.web_page}
+  provider: AzureOpenAI
+  connection: demoopenai01
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: checkDistanceOfficeAndOwner
+  type: llm
+  source:
+    type: code
+    path: checkDistanceOfficeAndOwner.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    temperature: 0
+    top_p: 1
+    response_format:
+      type: json_object
+    functions:
+    - name: browse_wesite
+      description: It is used to obtain information from the Internet. Please enter your questions in Japanese.
+      parameters:
+        type: object
+        properties:
+          url:
+            type: string
+            description: The url of the website
+        required:
+        - url
+    - name: check_distance
+      description: Calculate the distance from two zip codes.
+      parameters:
+        type: object
+        properties:
+          zip1:
+            type: string
+            description: a zip code of the first location
+          zip2:
+            type: string
+            description: a zip code of the second location
+        required:
+        - zip1
+        - zip2
+    function_call: auto
+    application_form: ${load_documents.output.application_form}
+    system_message: ${abuseDetection01_sys_msg02.output}
+  provider: AzureOpenAI
+  connection: demoopenai01
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: run_function_4dist
+  type: python
+  source:
+    type: code
+    path: run_function_4dist.py
+  inputs:
+    response_message: ${checkDistanceOfficeAndOwner.output}
+  use_variants: false
+- name: checkDistanceOfficeAndOwner2
+  type: llm
+  source:
+    type: code
+    path: checkDistanceOfficeAndOwner2.jinja2
+  inputs:
+    deployment_name: gpt-4o
+    temperature: 0
+    top_p: 1
+    response_format:
+      type: json_object
+    application_form: ${load_documents.output.application_form}
+    result_of_run_function: ${run_function_4dist.output}
+    system_message: ${abuseDetection01_sys_msg02.output}
+  provider: AzureOpenAI
+  connection: demoopenai01
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+node_variants:
+  abuseDetection01_sys_msg03:
+    default_variant_id: variant_1
+    variants:
+      variant_0:
+        node:
+          type: prompt
+          source:
+            type: code
+            path: abuseDetection01_sys_msg03.jinja2
+          inputs: {}
+      variant_1:
+        node:
+          type: prompt
+          source:
+            type: code
+            path: abuseDetection01_sys_msg03__variant_1.jinja2
+          inputs: {}

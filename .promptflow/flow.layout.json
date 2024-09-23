@@ -1,0 +1,103 @@
+{
+  "orientation": "Vertical",
+  "nodeLayouts": {
+    "inputs": {
+      "x": 855,
+      "y": 42,
+      "index": -1
+    },
+    "outputs": {
+      "x": 415,
+      "y": 846,
+      "index": -1
+    },
+    "load_documents": {
+      "x": 705,
+      "y": 176,
+      "height": 75,
+      "index": 0
+    },
+    "abuseDetection01_sys_msg01": {
+      "x": 315,
+      "y": 444,
+      "height": 75,
+      "index": 1
+    },
+    "checkApplicationForm": {
+      "x": 140,
+      "y": 578,
+      "height": 75,
+      "index": 2
+    },
+    "aggregate_risk": {
+      "x": 335,
+      "y": 712,
+      "height": 75,
+      "index": 3
+    },
+    "checkCertificateForm": {
+      "x": 490,
+      "y": 578,
+      "height": 75,
+      "index": 4
+    },
+    "abuseDetection01_sys_msg02": {
+      "x": 1035,
+      "y": 176,
+      "height": 75,
+      "index": 5
+    },
+    "checkWebHomePage": {
+      "x": 1180,
+      "y": 310,
+      "height": 75,
+      "index": 6
+    },
+    "abuseDetection01_sys_msg03": {
+      "x": 1375,
+      "y": 176,
+      "height": 75,
+      "index": 7
+    },
+    "run_function": {
+      "x": 1180,
+      "y": 444,
+      "height": 75,
+      "index": 8
+    },
+    "checkWebHomePage2": {
+      "x": 1365,
+      "y": 578,
+      "height": 75,
+      "index": 9
+    },
+    "checkDistanceOfficeAndOwner": {
+      "x": 830,
+      "y": 310,
+      "height": 75,
+      "index": 10
+    },
+    "run_function_4dist": {
+      "x": 830,
+      "y": 444,
+      "height": 75,
+      "index": 11
+    },
+    "checkDistanceOfficeAndOwner2": {
+      "x": 820,
+      "y": 578,
+      "height": 75,
+      "index": 12
+    }
+  },
+  "viewport": {
+    "transformMatrix": [
+      0.5649824611557066,
+      0,
+      0,
+      0.5649824611557066,
+      -18.93717724486396,
+      -23.684834256889232
+    ]
+  }
+}

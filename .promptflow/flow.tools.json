@@ -1,0 +1,200 @@
+{
+  "package": {},
+  "code": {
+    "checkWebHomePage.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "system_message": {
+          "type": [
+            "string"
+          ]
+        },
+        "web_home_page": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "checkWebHomePage.jinja2"
+    },
+    "checkWebHomePage2.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "system_message": {
+          "type": [
+            "string"
+          ]
+        },
+        "web_home_page": {
+          "type": [
+            "string"
+          ]
+        },
+        "result_of_run_function": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "checkWebHomePage2.jinja2"
+    },
+    "checkDistanceOfficeAndOwner.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "system_message": {
+          "type": [
+            "string"
+          ]
+        },
+        "application_form": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "checkDistanceOfficeAndOwner.jinja2"
+    },
+    "abuseDetection01_sys_msg03.jinja2": {
+      "type": "prompt",
+      "source": "abuseDetection01_sys_msg03.jinja2"
+    },
+    "checkCertificateForm.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "system_message": {
+          "type": [
+            "string"
+          ]
+        },
+        "certificate_of_all_matters": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "checkCertificateForm.jinja2"
+    },
+    "abuseDetection01_sys_msg02.jinja2": {
+      "type": "prompt",
+      "source": "abuseDetection01_sys_msg02.jinja2"
+    },
+    "aggregate_risk.py": {
+      "type": "python",
+      "inputs": {
+        "application_form_risk": {
+          "type": [
+            "string"
+          ]
+        },
+        "certificate_of_all_matters_risk": {
+          "type": [
+            "string"
+          ]
+        },
+        "web_page_risk": {
+          "type": [
+            "string"
+          ]
+        },
+        "distance_risk": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "aggregate_risk.py",
+      "function": "convert_to_dict"
+    },
+    "abuseDetection01_sys_msg01.jinja2": {
+      "type": "prompt",
+      "source": "abuseDetection01_sys_msg01.jinja2"
+    },
+    "run_function.py": {
+      "type": "python",
+      "inputs": {
+        "response_message": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "run_function.py",
+      "function": "run_function"
+    },
+    "checkApplicationForm.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "system_message": {
+          "type": [
+            "string"
+          ]
+        },
+        "application_form": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "checkApplicationForm.jinja2"
+    },
+    "run_function_4dist.py": {
+      "type": "python",
+      "inputs": {
+        "response_message": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "run_function_4dist.py",
+      "function": "run_function"
+    },
+    "abuseDetection01_sys_msg03__variant_1.jinja2": {
+      "type": "prompt",
+      "source": "abuseDetection01_sys_msg03__variant_1.jinja2"
+    },
+    "load_documents.py": {
+      "type": "python",
+      "inputs": {
+        "account_uri": {
+          "type": [
+            "string"
+          ]
+        },
+        "container_name": {
+          "type": [
+            "string"
+          ]
+        },
+        "config": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "load_documents.py",
+      "function": "load_transcription"
+    },
+    "checkDistanceOfficeAndOwner2.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "system_message": {
+          "type": [
+            "string"
+          ]
+        },
+        "application_form": {
+          "type": [
+            "string"
+          ]
+        },
+        "result_of_run_function": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "checkDistanceOfficeAndOwner2.jinja2"
+    }
+  }
+}
